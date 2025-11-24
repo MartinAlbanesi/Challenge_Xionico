@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ITaskApiService {
-    @GET
+    @GET ("/tasks")
     suspend fun getTasks(): Response<List<TaskApiModel>>
 
     @POST("/add")
