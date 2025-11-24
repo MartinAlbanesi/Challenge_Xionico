@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class TaskApiModel(
     @SerializedName("id") val id: Int,
-    @SerializedName("userId") val title: Int,
-    @SerializedName("todo") val description: String?,
-    @SerializedName("completed") var isCompleted: Boolean
+    @SerializedName("title") val title: Int,
+    @SerializedName("description") val description: String?,
+    @SerializedName("is_completed") var isCompleted: Boolean
 )
