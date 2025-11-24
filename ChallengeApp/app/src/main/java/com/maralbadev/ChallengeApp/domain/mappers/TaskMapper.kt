@@ -5,8 +5,8 @@ import com.maralbadev.ChallengeApp.domain.models.TaskModel
 
 fun TaskApiModel.toTask() : TaskModel {
     return TaskModel(
-        id = id.toString(),
-        title = title.toString(),
+        id = id,
+        title = title,
         description = description,
         isCompleted = isCompleted
     )
@@ -14,8 +14,8 @@ fun TaskApiModel.toTask() : TaskModel {
 
 fun TaskModel.toTaskApi() : TaskApiModel {
     return TaskApiModel(
-        id = id.toInt(),
-        title = title.toInt(),
+        id = id,
+        title = title,
         description = description,
         isCompleted = isCompleted
     )

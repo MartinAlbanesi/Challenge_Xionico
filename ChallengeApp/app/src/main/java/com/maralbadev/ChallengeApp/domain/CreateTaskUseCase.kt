@@ -1,4 +1,4 @@
-package com.maralbadev.ChallengeApp.domain.use_cases
+package com.maralbadev.ChallengeApp.domain
 
 import com.maralbadev.ChallengeApp.domain.interfaces.ITaskRepository
 import com.maralbadev.ChallengeApp.domain.models.TaskModel
