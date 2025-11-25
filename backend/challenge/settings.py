@@ -94,15 +94,15 @@ WSGI_APPLICATION = 'challenge.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django_mssql_backend",
-        "NAME": os.environ.get("DB_NAME"),
-        "USER": os.environ.get("DB_USER"),
-        "PASSWORD": os.environ.get("DB_PASSWORD"),
-        "HOST": os.environ.get("DB_HOST"),
-        "PORT": os.environ.get("DB_PORT", "1433"),
+        "NAME": os.getenv("DB_NAME"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_PASSWORD"),
+        "HOST": os.getenv("DB_HOST"),
+        "PORT": os.getenv("DB_PORT", "1433"),
         "OPTIONS": {
             "driver": "ODBC Driver 17 for SQL Server",
-            "encrypt": os.environ.get("DB_ENCRYPT", "yes"),
-            "trustServerCertificate": os.environ.get("DB_TRUST_SERVER_CERTIFICATE", "yes"),
+            "encrypt": os.getenv("DB_ENCRYPT", "yes"),
+            "trustServerCertificate": os.getenv("DB_TRUST_SERVER_CERTIFICATE", "yes"),
         },
     }
 }
