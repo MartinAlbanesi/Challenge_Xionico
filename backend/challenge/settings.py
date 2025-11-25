@@ -92,49 +92,21 @@ WSGI_APPLICATION = 'challenge.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-params = quote_plus(os.environ["DATABASE_URL"])
-
-DATABASES = {}
-
-if os.getenv("ENV") == "PRODUCTION":
-    # Railway SQL Server
-    connection_string = os.getenv("DATABASE_URL")
-
-    params = quote_plus(connection_string)
-
-    DATABASES = {
-        "default": {
-            "ENGINE": "mssql",
-            "NAME": os.getenv("DB_NAME"),
-            "USER": os.getenv("DB_USER"),
-            "PASSWORD": os.getenv("DB_PASSWORD"),
-            "HOST": os.getenv("DB_HOST"),
-            "PORT": os.getenv("DB_PORT"),
-            "OPTIONS": {
-                "driver": "ODBC Driver 17 for SQL Server",
-                "encrypt": "no",
-                "trustServerCertificate": "yes",
-            },
-        }
+DATABASES = {
+    "default": {
+        "ENGINE": "mssql",
+        "NAME": os.environ.get("DB_NAME"),
+        "USER": os.environ.get("DB_USER"),
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "HOST": os.environ.get("DB_HOST"),
+        "PORT": os.environ.get("DB_PORT", "1433"),
+        "OPTIONS": {
+            "driver": "ODBC Driver 17 for SQL Server",
+            "encrypt": os.environ.get("DB_ENCRYPT", "yes"),
+            "trustServerCertificate": os.environ.get("DB_TRUST_SERVER_CERTIFICATE", "yes"),
+        },
     }
-
-else:
-    # Local SQL Server
-    DATABASES = {
-        'default': {
-            'ENGINE': 'mssql',
-            'NAME': 'TODO_DB',
-            'USER': 'sa',
-            'PASSWORD': 'Maralbadev123',
-            'HOST': 'localhost',
-            'PORT': '1433',
-            'OPTIONS': {
-                'driver': 'ODBC Driver 17 for SQL Server',
-                'encrypt': 'no',
-                'trustServerCertificate': 'yes',
-            },
-        }
-    }
+}
 
 
 # Password validation
