@@ -10,6 +10,6 @@ interface ITaskApiService {
     @GET ("/tasks")
     suspend fun getTasks(): Response<List<TaskApiModel>>
 
-    @POST("/add")
+    @POST("/tasks")
     suspend fun postTask(@Body task: TaskApiModel): Response<TaskApiModel>
 }

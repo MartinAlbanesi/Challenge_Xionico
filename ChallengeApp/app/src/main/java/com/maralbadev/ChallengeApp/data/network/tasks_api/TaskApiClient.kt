@@ -10,12 +10,26 @@ class TaskApiClient(private val taskService: ITaskApiService) : ITaskClient {
 
     // Obtiene la respuesta de la API y devuelve una lista de tareas, o una excepción en caso de error
     override suspend fun fetchTasks(): List<TaskApiModel> {
-        val response = taskService.getTasks()
-        if(!response.isSuccessful) {
-            throw Exception(handleUnsuccessfulResponse(response).statusMessage)
+        try {
+            val response = taskService.getTasks()
+            if (response.isSuccessful) {
+                return response.body() ?: emptyList()
+            } else {
+                // --- SAFE ERROR PARSING START ---
+                val errorString = response.errorBody()?.string()
+                try {
+                    // Try to parse JSON
+                    val errorObj = Gson().fromJson(errorString, ErrorMessage::class.java)
+                    throw Exception(errorObj.statusMessage)
+                } catch (e: Exception) {
+                    // Fallback if JSON parsing fails (e.g., it was HTML or empty)
+                    throw Exception("Server Error: ${response.code()} - $errorString")
+                }
+                // --- SAFE ERROR PARSING END ---
+            }
+        } catch (e: Exception) {
+            throw Exception("Error fetching tasks: ${e.message}")
         }
-
-        return response.body() ?: emptyList()
     }
 
     // Crea una tarea en la API y devuelve la respuesta, o una excepción en caso de error

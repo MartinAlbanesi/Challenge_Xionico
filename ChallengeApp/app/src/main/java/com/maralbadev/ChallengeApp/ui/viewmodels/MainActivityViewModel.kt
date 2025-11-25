@@ -3,9 +3,8 @@ package com.maralbadev.ChallengeApp.ui.viewmodels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.maralbadev.ChallengeApp.domain.models.TaskModel
-import com.maralbadev.ChallengeApp.domain.CreateTaskUseCase
 import com.maralbadev.ChallengeApp.domain.GetTasksUseCase
+import com.maralbadev.ChallengeApp.domain.models.TaskModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
