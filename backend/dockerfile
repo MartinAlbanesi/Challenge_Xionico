@@ -1,0 +1,40 @@
+FROM python:3.12-slim
+
+# Configuración de sistema
+ENV ACCEPT_EULA=Y
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Instalar dependencias necesarias
+RUN apt-get update && apt-get install -y \
+    curl \
+    gnupg \
+    unixodbc \
+    unixodbc-dev \
+    build-essential \
+    && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl https://packages.microsoft.com/config/debian/12/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+    && apt-get update \
+    && ACCEPT_EULA=Y apt-get install -y msodbcsql18 mssql-tools18 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Crear directorio de la app
+WORKDIR /app
+
+# Copiar requirements
+COPY requirements.txt .
+
+# Instalar paquetes Python (incluye pyodbc y django-mssql-backend)
+RUN pip install --upgrade pip \
+ && pip install -r requirements.txt
+
+# Copiar el proyecto
+COPY . .
+
+# Django collectstatic (si aplica)
+RUN python manage.py collectstatic --noinput || true
+
+# Exponer el puerto (Railway usará el 8080)
+EXPOSE 8080
+
+# Ejecutar Gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "challenge.wsgi"]
